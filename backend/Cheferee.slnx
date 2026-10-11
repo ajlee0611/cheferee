@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Cheferee.Api/Cheferee.Api.csproj" />
+    <Project Path="src/Cheferee.Core/Cheferee.Core.csproj" />
+    <Project Path="src/Cheferee.Infrastructure/Cheferee.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Cheferee.Tests/Cheferee.Tests.csproj" />
+  </Folder>
+</Solution>

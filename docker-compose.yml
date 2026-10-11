@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: cheferee-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: cheferee_dev
+      POSTGRES_USER: cheferee_user
+      POSTGRES_PASSWORD: cheferee_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cheferee_user -d cheferee_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: cheferee-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass redis_dev_password
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "redis_dev_password", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  s3-storage:
+    image: localstack/localstack:latest
+    container_name: cheferee-storage
+    restart: unless-stopped
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3
+      - AWS_DEFAULT_REGION=us-east-1
+    volumes:
+      - localstack_data:/var/lib/localstack
+
+volumes:
+  postgres_data:
+  redis_data:
+  localstack_data:

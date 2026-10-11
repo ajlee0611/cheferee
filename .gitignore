@@ -1,0 +1,30 @@
+# .NET / C# build outputs
+bin/
+obj/
+*.user
+*.suo
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Docker volume data mounts (if created locally)
+postgres_data/
+redis_data/
+minio_data/
+
+# IDE files
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+*.DS_Store
