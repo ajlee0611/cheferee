@@ -32,19 +32,6 @@ services:
       timeout: 5s
       retries: 5
 
-  s3-storage:
-    image: localstack/localstack:latest
-    container_name: cheferee-storage
-    restart: unless-stopped
-    ports:
-      - "4566:4566"
-    environment:
-      - SERVICES=s3
-      - AWS_DEFAULT_REGION=us-east-1
-    volumes:
-      - localstack_data:/var/lib/localstack
-
 volumes:
   postgres_data:
   redis_data:
-  localstack_data:
