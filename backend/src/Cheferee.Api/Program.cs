@@ -1,4 +1,6 @@
 using Cheferee.Api.Configuration;
+using Cheferee.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -41,6 +43,14 @@ try
         });
     });
 
+    var dbSettings = builder.Configuration.GetSection("Database").Get<DatabaseSettings>()
+    ?? throw new InvalidOperationException("Database settings are missing.");
+
+    builder.Services.AddDbContext<ChefereeDbContext>(options =>
+    {
+        options.UseNpgsql(dbSettings.ConnectionString);
+    });
+
     builder.Services.AddOpenApi();
     builder.Services.AddHealthChecks();
 
@@ -65,6 +75,10 @@ try
     .WithName("Ping");
 
     app.Run();
+}
+catch (HostAbortedException)
+{
+    // Expected exception when EF Core CLI tools inspect the host without running the web server
 }
 catch (Exception ex)
 {
